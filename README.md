@@ -10,5 +10,5 @@ Ionic application with image recognition using  [cordova-plugin-tensorflow](http
 
 ## Screenshots
 
-![scr_1](https://github.com/EdselNicolas/ionic-tensorflow/blob/master/screenshots/screenshot_1.png)
-![scr_2](https://github.com/EdselNicolas/ionic-tensorflow/blob/master/screenshots/screenshot_2.png)
+![scr_1](https://github.com/EdselNicolas/ionic-tensorflow/blob/master/screenshots/screenshot_0.png)
+![scr_2](https://github.com/EdselNicolas/ionic-tensorflow/blob/master/screenshots/screenshot_1.png)
