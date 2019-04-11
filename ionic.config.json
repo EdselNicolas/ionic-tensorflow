@@ -1,5 +1,7 @@
 {
   "name": "ionic-tensorflow",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "ionic-angular"
 }
