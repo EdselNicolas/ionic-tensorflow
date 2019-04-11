@@ -7,6 +7,7 @@
 </ion-header>
 
 <ion-content padding>
+  <h5 *ngIf="!capturedImg">Add Image to Start</h5>
   <ion-card>
     <img *ngIf="capturedImg" [src]="capturedImg" />
     <ion-card-content *ngFor="let res of recognizedResults">
@@ -20,5 +21,12 @@
   </ion-card>
 </ion-content>
 <ion-footer>
-    <button full ion-button (tap)="captureImage()">Capture Image</button>
+  <div col-12>
+    <div col-5 style="display: inline-block">
+      <button full ion-button (tap)="captureImage('CAMERA')">Capture Image</button>
+    </div>
+    <div col-5 style="display: inline-block">
+      <button full ion-button (tap)="captureImage('PHOTOLIBRARY')">Choose Image</button>
+    </div>
+  </div>
 </ion-footer>
