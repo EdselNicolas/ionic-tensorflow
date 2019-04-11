@@ -7,3 +7,8 @@ Ionic application with image recognition using  [cordova-plugin-tensorflow](http
  * Run `npm install` from the project root.
  * If you do not install the ionic CLI (`npm install -g ionic`)
  * Run `ionic serve` in a terminal from the project root.
+
+## Screenshots
+
+![scr_1](https://github.com/EdselNicolas/ionic-tensorflow/blob/master/screenshots/screenshot_1.png)
+![scr_2](https://github.com/EdselNicolas/ionic-tensorflow/blob/master/screenshots/screenshot_2.png)
