@@ -58,6 +58,7 @@ export class HomePage implements OnInit {
     loader.present()
 
     if (this.modelType == 'mobilenet') {
+      // from https://golb.hplar.ch/2019/01/pretrained-models.html
       // downloading models (internet connection required!)
       this.mnetModel = await mobilenet.load()
       // using pre trained model
