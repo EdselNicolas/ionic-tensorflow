@@ -1,20 +1,34 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { NavController, LoadingController } from 'ionic-angular';
 import { Camera, CameraOptions } from '@ionic-native/camera';
-
+import * as mobilenet from '@tensorflow-models/mobilenet';
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
 export class HomePage implements OnInit {
-  capturedImg: string = '';
-  recognizedResults: Array<any> = []
+  @ViewChild('imgEl') imgEl: ElementRef
+  modelType: string = 'inception';
+  capturedImg = {
+    base64: '',
+    raw: ''
+  };
+  recognizedResults: Array<any> = [];
+
+  mnetModel: mobilenet.MobileNet;
   constructor(public navCtrl: NavController, private camera: Camera, private loadingCtrl: LoadingController) {
 
   }
 
   ngOnInit() {
 
+  }
+
+  onModelChange(ev) {
+    console.log(ev);
+    if (this.capturedImg.raw.length) {
+      this.processImage()
+    }
   }
 
   captureImage(sourceType) {
@@ -26,30 +40,48 @@ export class HomePage implements OnInit {
       sourceType: this.camera.PictureSourceType[sourceType]
     }
 
-    this.camera.getPicture(options).then(base64 => {
+    this.camera.getPicture(options).then(async base64 => {
+      this.capturedImg.raw = base64
+      this.capturedImg.base64 = `data:image/jpeg;base64,${base64}`;
+      this.processImage()
 
-      let loader = this.loadingCtrl.create({
-        content: 'Processing Image...'
-      })
-      loader.present()
+    }, (err) => {
+      console.log(err);
+    })
+  }
 
-      let tf = new (<any>window).TensorFlow('inception-v1')
-      this.capturedImg = `data:image/jpeg;base64,${base64}`;
-      tf.classify(base64).then(results => {
+  async processImage() {
+
+    const loader = this.loadingCtrl.create({
+      content: 'Processing Image...'
+    })
+    loader.present()
+
+    if (this.modelType == 'mobilenet') {
+      // downloading models (internet connection required!)
+      this.mnetModel = await mobilenet.load()
+      // using pre trained model
+      this.mnetModel.classify(this.imgEl.nativeElement).then(results => {
         this.recognizedResults = results
-        // results.forEach(result => {
-        //   console.log(result.title + " " + result.confidence);
-        // });
-      })
-
-
-      tf.load().then(function() {
+        loader.dismiss()
+      }).catch(err => {
+        console.log(err);
         loader.dismiss()
       })
 
-   
-  }, (err) => {
-    console.log(err);
-  })
+    } else {
+      // using default model by tensorflow
+      let tf = new (<any>window).TensorFlow('inception-v1')
+
+      tf.classify(this.capturedImg.raw).then(results => {
+        this.recognizedResults = results
+      })
+
+      tf.load().then(function () {
+        loader.dismiss()
+      })
+    }
+
   }
+
 }

@@ -8,14 +8,24 @@
 
 <ion-content padding>
   <h5 *ngIf="!capturedImg">Add Image to Start</h5>
+  <ion-list no-lines>
+    <ion-item>
+      <ion-label>Models</ion-label>
+      <ion-select (ionChange)="onModelChange($event)" [(ngModel)]="modelType">
+        <ion-option [selected]="true" value="inception">Inception (Default)</ion-option>
+        <ion-option value="mobilenet">Pre-trained (MobileNet)</ion-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+  <p *ngIf="modelType == 'mobilenet'" style="color: red">This model type needs Internet connection</p>
   <ion-card>
-    <img *ngIf="capturedImg" [src]="capturedImg" />
+    <img #imgEl *ngIf="capturedImg" [src]="capturedImg.base64" />
     <ion-card-content *ngFor="let res of recognizedResults">
       <ion-card-title>
-        {{res.title}}
+        {{modelType == 'mobilenet' ? res.className: res.title}}
       </ion-card-title>
       <p>
-        {{res.confidence | percent}}
+        {{(modelType == 'mobilenet' ? res.probability: res.confidence) | percent}}
       </p>
     </ion-card-content>
   </ion-card>
