@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-navbar>
+    <button no-shadows no-border ion-button menuToggle left>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Ionic Object Detection</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <h5 *ngIf="!capturedImg">Add Image to Start</h5>
+  <p style="color: red">Internet connection required</p>
+  <ion-card>
+    <img class="hide-img" (load)="imageLoadEvent()" #imgEl *ngIf="capturedImg" [src]="capturedImg" />
+    <canvas #canvasEl></canvas>
+  </ion-card>
+</ion-content>
+<ion-footer>
+  <div col-12>
+    <div col-5 style="display: inline-block">
+      <button full ion-button (tap)="captureImage('CAMERA')">Capture Image</button>
+    </div>
+    <div col-5 style="display: inline-block">
+      <button full ion-button (tap)="captureImage('PHOTOLIBRARY')">Choose Image</button>
+    </div>
+  </div>
+</ion-footer>
