@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { NavController, LoadingController } from 'ionic-angular';
+import { NavController, LoadingController, IonicPage } from 'ionic-angular';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import * as mobilenet from '@tensorflow-models/mobilenet';
+@IonicPage()
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -37,7 +38,8 @@ export class HomePage implements OnInit {
       destinationType: this.camera.DestinationType.DATA_URL,
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE,
-      sourceType: this.camera.PictureSourceType[sourceType]
+      sourceType: this.camera.PictureSourceType[sourceType],
+      correctOrientation: true
     }
 
     this.camera.getPicture(options).then(async base64 => {
@@ -72,8 +74,8 @@ export class HomePage implements OnInit {
 
     } else {
       // using default model by tensorflow
-      let tf = new (<any>window).TensorFlow('inception-v1')
-
+      let tf = new (<any>window).TensorFlow('inception-v3')
+      
       tf.classify(this.capturedImg.raw).then(results => {
         this.recognizedResults = results
       })
