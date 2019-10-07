@@ -27,7 +27,8 @@ export class ObjectDetectionPage {
       destinationType: this.camera.DestinationType.DATA_URL,
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE,
-      sourceType: this.camera.PictureSourceType[sourceType]
+      sourceType: this.camera.PictureSourceType[sourceType],
+      correctOrientation: true
     }
 
     this.camera.getPicture(options).then(async base64 => {
